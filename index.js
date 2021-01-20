@@ -12,6 +12,8 @@ const user = require('./routes/user')
 
 const auth = require('./routes/auth')
 
+const config = require('config')
+
 
 mongoose.connect('mongodb://localhost/videly').then(()=>{
     console.log('connected')
@@ -19,6 +21,11 @@ mongoose.connect('mongodb://localhost/videly').then(()=>{
 
 
 const app = express()
+
+if(!config.get('jwtPrivateKey')) {
+    console.error('jwt is not defined !')
+    process.exit(1)
+}
 
 app.use(express.json())
 app.use('/api/genres',genres);
